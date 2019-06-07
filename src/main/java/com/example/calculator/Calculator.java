@@ -243,7 +243,7 @@ public class Calculator {
                     System.out.print(format.format(x) + " ");
                 } else {
                     if (x.toString().length() - x.toString().indexOf(".") > 10) {
-                        System.out.print(x.toString().substring(0, x.toString().indexOf(".") + 10) + " ");
+                        System.out.print(x.toString().substring(0, x.toString().indexOf(".") + 11) + " ");
                     } else {
                         System.out.print(x + " ");
                     }
