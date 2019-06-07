@@ -116,6 +116,8 @@ public class Calculator {
                     if (pop < 0) {
                         map.put("message", "operator : " + split[i] + " ( position: " + (i * 2 + 1) + "): insufficient parameters stack: " + pop);
                         map.put("data", split[i]);
+                        stack.push(pop);
+                        stackMap.put(counter, stack);
                         throw new MyException(JSONObject.toJSONString(map));
                     }
                     operation = operation(pop, null, split[i]);
@@ -131,9 +133,23 @@ public class Calculator {
                     }
                     map.put("message", "operator : " + split[i] + " ( position: " + (i * 2 + 1) + "): insufficient parameters stack: " + pop);
                     map.put("data", list);
+                    stackMap.put(counter, stack);
                     throw new MyException(JSONObject.toJSONString(map));
                 }
                 //其他运算符操作
+
+                //除数为0
+                if ("/".equals(split[i]) && pop == 0) {
+                    List<String> list = new ArrayList<>();
+                    for (int j = i + 1; j < split.length; j++) {
+                        list.add(split[j]);
+                    }
+                    map.put("message", "operator : " + split[i] + " ( position: " + (i * 2 + 1) + "): insufficient parameters stack: " + pop);
+                    map.put("data", list);
+                    stack.push(pop);
+                    stackMap.put(counter, stack);
+                    throw new MyException(JSONObject.toJSONString(map));
+                }
                 Double pop1 = stack.pop();
                 operation = operation(pop, pop1, split[i]);
                 //说明有不正常数据
