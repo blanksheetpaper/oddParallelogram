@@ -111,19 +111,25 @@ public class Calculator {
             if (set.contains(split[i])) {
                 Double operation;
                 Double pop = stack.pop();
+                //平方根操作
                 if ("sqrt".equals(split[i])) {
+                    if (pop < 0) {
+                        map.put("message", "operator : " + split[i] + " ( position: " + (i * 2 + 1) + "): insufficient parameters stack: " + pop);
+                        map.put("data", split[i]);
+                        throw new MyException(JSONObject.toJSONString(map));
+                    }
                     operation = operation(pop, null, split[i]);
                     stack.push(operation);
                     stackMap.put(counter, stack);
                     continue;
                 }
-                //平方根操作
+
                 if (stack.empty() && !"sqrt".equals(split[i])) {
                     List<String> list = new ArrayList<>();
                     for (int j = i + 1; j < split.length; j++) {
                         list.add(split[j]);
                     }
-                    map.put("message", "operator" + split[i] + "(position: " + (i * 2 + 1) + "): insufficient parameters stack: " + pop);
+                    map.put("message", "operator : " + split[i] + " ( position: " + (i * 2 + 1) + "): insufficient parameters stack: " + pop);
                     map.put("data", list);
                     throw new MyException(JSONObject.toJSONString(map));
                 }
@@ -132,7 +138,7 @@ public class Calculator {
                 operation = operation(pop, pop1, split[i]);
                 //说明有不正常数据
                 if (null == operation) {
-                    map.put("message", "operator" + split[i] + "(position: " + i + "): insufficient parameters stack: " + pop1);
+                    map.put("message", "operator : " + split[i] + " ( position: " + i + "): insufficient parameters stack: " + pop1);
                     map.put("data", split[i]);
                     throw new MyException(JSONObject.toJSONString(map));
                 }
