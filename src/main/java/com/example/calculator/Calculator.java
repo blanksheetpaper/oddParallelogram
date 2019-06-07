@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.exceptions.MyException;
 import org.apache.commons.lang3.StringUtils;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -243,8 +244,7 @@ public class Calculator {
                     System.out.print(format.format(x) + " ");
                 } else {
                     if (x.toString().length() - x.toString().indexOf(".") > 10) {
-                        DecimalFormat format = new DecimalFormat("#.##########");
-                        System.out.print(format.format(x) + " ");
+                        System.out.print(String.format("%.10f", x) + " ");
                     } else {
                         System.out.print(x + " ");
                     }
