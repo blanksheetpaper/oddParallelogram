@@ -76,7 +76,7 @@ public class Calculator {
         //分隔字符串
         String[] split = Calculator.split(string);
         if (null == stackMap.get(counter) || stackMap.get(counter).empty()) {
-            if (!split[0].matches("[0-9]+")) {
+            if (!split[0].matches("^-?\\d+(\\.\\d+)?$")) {
                 map.put("message", "operator " + split[0] + "(position " + 1 + ")");
                 map.put("data", split[0]);
                 throw new MyException(JSONObject.toJSONString(map));
@@ -103,7 +103,7 @@ public class Calculator {
             Stack<Double> stack = new Stack<>();
             //取出上一次的值
             stack.addAll(Optional.ofNullable(stackMap.get(counter - 1)).orElse(new Stack<>()));
-            if (split[i].matches("[0-9]+")) {
+            if (split[i].matches("^-?\\d+(\\.\\d+)?$")) {
                 stack.push(Double.valueOf(split[i]));
             }
             //运算符操作
@@ -138,7 +138,7 @@ public class Calculator {
                 stack.push(operation);
             }
             //判断是否包含除了字符串和规定字符
-            if (split[i].matches("^[^0-9]+") && !set.contains(split[i])) {
+            if (!split[i].matches("^-?\\d+(\\.\\d+)?$") && !set.contains(split[i])) {
                 map.put("message", "请输入正确的字符");
                 List<String> list = new ArrayList<>();
                 for (int j = i + 1; j < split.length; j++) {
@@ -236,7 +236,7 @@ public class Calculator {
             }
             System.out.print("stack:");
             stackMap.get(counter).forEach((x) -> {
-                String regex = "(\\d+)\\.?[0]$";
+                String regex = "-?(\\d+)\\.?[0]$";
                 Pattern p = Pattern.compile(regex);
                 if (p.matcher(String.valueOf(x)).matches()) {
                     DecimalFormat format = new DecimalFormat("#");
